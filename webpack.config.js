@@ -11,17 +11,16 @@ module.exports = env => {
       filename: `bundle.${env.deploy ? "[contenthash]." : ""}js`
     },
     externals: {
-      react: "React",
-      "react-dom": "ReactDOM",
-      redux: "Redux",
-      "react-redux": "ReactRedux",
       newamericadotorg: "newamericadotorg"
     },
     plugins: [
       env.deploy === "development" && new webpack.HotModuleReplacementPlugin(),
       new HtmlWebpackPlugin({
         title: "",
-        chartIDs: ["viz__id"],
+        chartIDs: [
+          'map_individuals',
+          'map_units'
+        ],
         inject: false,
         template: path.resolve(__dirname, "src/index.html")
       }),

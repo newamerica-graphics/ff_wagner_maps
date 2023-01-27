@@ -38,4 +38,12 @@ function getDefaultColor(code) {
   return colors[code].light;
 }
 
-export { colors, getDefaultColor };
+const colorsets = {
+  unordered: [
+    colors.turquoise.light,
+    colors.purple.light,
+    colors.red.light
+  ]
+}
+
+export { colors, getDefaultColor, colorsets };
