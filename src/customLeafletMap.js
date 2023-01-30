@@ -6,7 +6,7 @@ import { colorsets } from './lib/colors'
 var L = require('leaflet');
 
 export default function (el, data, group_attribute) {  
-  var map = L.map(el).setView([51.505, -0.09], 2)
+  var map = L.map(el).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
