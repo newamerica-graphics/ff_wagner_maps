@@ -42,6 +42,8 @@ export default function (el, data, group_attribute, tooltip_template) {
       .attr("value", (d, i) => `group${i}`)
       .property("checked", true)
       .classed("filters__input", true)
+  
+  var selected_marker
 
   const svg = d3.select(baseEl)
     .select("svg")
@@ -60,23 +62,38 @@ export default function (el, data, group_attribute, tooltip_template) {
       .style("stroke-width", 1)
     .on("mouseover", mouseover)
     .on("mouseleave", mouseleave)
+    .on("click", onclick)
   
   const tooltip = pane.append("div")
     .attr("class", "tooltip")
-
   
-  function mouseover(e, d) {
-    d3.select(this)
+  function setTooltip(selection, d) {
+    selection
       .style("stroke", "black")
+      .raise()
     tooltip
       .html(tooltip_template(d))
   }
-  
-  function mouseleave(e, d) {
-    d3.select(this)
+
+  function clearTooltip(selection, d) {
+    selection
       .style("stroke", colorsets.unordered.light[d.group_index])
     tooltip
       .html("")
+  }
+  
+  function onclick(e, d) {
+    selected_marker && clearTooltip(selected_marker, selected_marker.datum())
+    selected_marker = d3.select(this)
+    setTooltip(selected_marker, d)
+  }
+
+  function mouseover(e, d) {
+    !selected_marker && setTooltip(d3.select(this), d)
+  }
+  
+  function mouseleave(e, d) {
+    !selected_marker && clearTooltip(d3.select(this), d)
   }
   
   // Update circle position if something changes
