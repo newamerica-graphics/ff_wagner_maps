@@ -25,13 +25,14 @@ export default function (el, data, group_attribute, tooltip_template) {
   data = data.filter(d => d.latitude && d.longitude)
   let groups = [...new Set(data.map(d => d[group_attribute]))].sort()
   data.forEach(d => d.group_index = `${groups.indexOf(d[group_attribute])}`)
+  groups = groups.map(g => ({ group: g, active: true }))
 
   var filters = pane.append("div")
-      .attr("class", "filters")
+    .attr("class", "filters")
     .selectAll("label") 
     .data(groups)
     .join("label")
-      .text(d => d)
+      .text(d => d.group)
       .classed("filters__label filters__label--active", true)
       .style("color", (d, i) => colorsets.unordered.dark[i])
       .style("border-color", (d, i) => colorsets.unordered.light[i])
@@ -40,7 +41,7 @@ export default function (el, data, group_attribute, tooltip_template) {
     .append("input")
       .attr("type", "checkbox")
       .attr("value", (d, i) => `group${i}`)
-      .property("checked", true)
+      .property("checked", d => d.active)
       .classed("filters__input", true)
   
   var selected_marker
@@ -49,20 +50,23 @@ export default function (el, data, group_attribute, tooltip_template) {
     .select("svg")
     .attr("pointer-events", "auto")
 
-  const markers = svg.selectAll(".marker")
-    .data(data)
-    .join("circle")
-      .attr("class", d => `group${d.group_index}`)
-      .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
-      .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
-      .attr("r", 3)
-      .style("fill", d => colorsets.unordered.light[d.group_index])
-      .style("fill-opacity", .8)
-      .style("stroke", d => colorsets.unordered.light[d.group_index])
-      .style("stroke-width", 1)
-    .on("mouseover", mouseover)
-    .on("mouseleave", mouseleave)
-    .on("click", onclick)
+  function updateData(data) {
+    svg.selectAll("circle")
+      .data(data)
+      .join("circle")
+        .classed(d => `group${d.group_index}`, true)
+        .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
+        .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
+        .attr("r", 3)
+        .style("fill", d => colorsets.unordered.light[d.group_index])
+        .style("fill-opacity", .8)
+        .style("stroke", d => colorsets.unordered.light[d.group_index])
+        .style("stroke-width", 1)
+        .on("mouseover", mouseover)
+        .on("mouseleave", mouseleave)
+        .on("click", onclick)
+  }
+  updateData(data)
   
   const tooltip = pane.append("div")
     .attr("class", "tooltip")
@@ -103,13 +107,11 @@ export default function (el, data, group_attribute, tooltip_template) {
       .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
   }
 
-  function updateFilters() {
+  function updateFilters(e, d) {
     let filter = d3.select(this)
-    let checked = filter.select("input").property("checked")
-    let value = filter.select("input").property("value")
-    
-    filter.classed("filters__label--active", checked)
-    svg.selectAll(`.${value}`).style("opacity", checked*1)
+    d.active = filter.select("input").property("checked")
+    filter.classed("filters__label--active", d.active)
+    updateData(data.filter(m => groups[m.group_index].active))
   }
   
   // If the user changes the map (zoom or drag), update circle position:
