@@ -6,7 +6,13 @@ import { colorsets } from './lib/colors'
 var L = require('leaflet');
 
 export default function (el, data, group_attribute) {  
-  var map = L.map(el).setView([25, 0], 2)
+  const pane = d3.select(el)
+    .append("div")
+    .attr("class", "pane")
+
+  var baseEl = el.appendChild(document.createElement("div"))
+  baseEl.classList.add("map")
+  var map = L.map(baseEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -17,29 +23,57 @@ export default function (el, data, group_attribute) {
   L.svg().addTo(map);
   
   data = data.filter(d => d.latitude && d.longitude)
-  let groups = [...new Set(data.map(e => e[group_attribute]))]
+  let groups = [...new Set(data.map(d => d[group_attribute]))].sort()
+  data.forEach(d => d.group_index = `${groups.indexOf(d[group_attribute])}`)
 
-  let svg = d3.select(el)
+  var filters = pane.append("div")
+      .attr("class", "filters")
+    .selectAll("label") 
+    .data(groups)
+    .join("label")
+      .text(d => d)
+      .classed("filters__label filters__label--active", true)
+      .style("color", (d, i) => colorsets.unordered.dark[i])
+      .style("border-color", (d, i) => colorsets.unordered.light[i])
+      .style("background-color", (d, i) => `${colorsets.unordered.light[i]}40`)
+      .on("change", updateFilters) 
+    .append("input")
+      .attr("type", "checkbox")
+      .attr("value", (d, i) => `group${i}`)
+      .property("checked", true)
+      .classed("filters__input", true)
+
+  const svg = d3.select(baseEl)
     .select("svg")
 
-  const markers = svg.selectAll("myCircles")
+  const markers = svg.selectAll(".marker")
     .data(data)
     .join("circle")
+      .attr("class", d => `group${d.group_index}`)
       .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
       .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
-      .attr("r", 2)
-      .style("fill", d => colorsets.unordered[groups.indexOf(d[group_attribute])]) //TODO more efficient
-      .attr("fill-opacity", .8)
-      .attr("stroke", d => colorsets.unordered[groups.indexOf(d[group_attribute])]) //TODO more efficient
-      .attr("stroke-width", 1)
+      .attr("r", 3)
+      .style("fill", d => colorsets.unordered.light[d.group_index])
+      .style("fill-opacity", .8)
+      .style("stroke", d => colorsets.unordered.light[d.group_index])
+      .style("stroke-width", 1)
   
   // Update circle position if something changes
-  function update() {
+  function updateMarkers() {
     d3.selectAll("circle")
       .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
       .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
   }
+
+  function updateFilters() {
+    let filter = d3.select(this)
+    let checked = filter.select("input").property("checked")
+    let value = filter.select("input").property("value")
+    
+    filter.classed("filters__label--active", checked)
+    svg.selectAll(`.${value}`).style("opacity", checked*1)
+  }
   
   // If the user changes the map (zoom or drag), update circle position:
-  map.on("moveend", update)
+  map.on("moveend", updateMarkers)
 }

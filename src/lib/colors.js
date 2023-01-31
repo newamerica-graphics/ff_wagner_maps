@@ -39,11 +39,18 @@ function getDefaultColor(code) {
 }
 
 const colorsets = {
-  unordered: [
-    colors.turquoise.light,
-    colors.purple.light,
-    colors.red.light
-  ]
+  unordered: {
+    light: [
+      colors.turquoise.light,
+      colors.purple.light,
+      colors.red.light
+    ],
+    dark: [
+      colors.turquoise.dark,
+      colors.purple.dark,
+      colors.red.dark
+    ]
+  }
 }
 
 export { colors, getDefaultColor, colorsets };
