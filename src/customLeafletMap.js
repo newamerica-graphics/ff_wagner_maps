@@ -5,7 +5,7 @@ import { colorsets } from './lib/colors'
 
 var L = require('leaflet');
 
-export default function (el, data, group_attribute) {  
+export default function (el, data, group_attribute) {
   const pane = d3.select(el)
     .append("div")
     .attr("class", "pane")
@@ -45,6 +45,7 @@ export default function (el, data, group_attribute) {
 
   const svg = d3.select(baseEl)
     .select("svg")
+    .attr("pointer-events", "auto")
 
   const markers = svg.selectAll(".marker")
     .data(data)
@@ -57,6 +58,28 @@ export default function (el, data, group_attribute) {
       .style("fill-opacity", .8)
       .style("stroke", d => colorsets.unordered.light[d.group_index])
       .style("stroke-width", 1)
+    .on("mouseover", mouseover)
+    .on("mouseleave", mouseleave)
+  
+  const tooltip = pane.append("div")
+    .attr("class", "tooltip")
+
+  
+  function mouseover(e, d) {
+    d3.select(this)
+      .style("stroke", "black")
+    tooltip
+      .html(`
+      <p>Group: ${d.vk_group}</p>
+      `)
+  }
+  
+  function mouseleave(e, d) {
+    d3.select(this)
+      .style("stroke", colorsets.unordered.light[d.group_index]) //TODO more efficient
+    tooltip
+      .html("")
+  }
   
   // Update circle position if something changes
   function updateMarkers() {
