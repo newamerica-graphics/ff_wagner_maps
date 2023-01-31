@@ -68,13 +68,29 @@ export default function (el, data, group_attribute, tooltip_template) {
   }
   updateData(data)
   
-  const tooltip = pane.append("div")
-    .attr("class", "tooltip")
+  const tooltipWrapper = pane.append("div")
+    .classed("tooltip", true)
+    .style("opacity", 0)
+
+  const tooltipClose = tooltipWrapper.append("div")
+    .classed("tooltip__close", true)
+    .html("✕")
+    .style("opacity", 0)
+    .on("click", (d, e) => {
+      clearTooltip(selected_marker, selected_marker.datum())
+      selected_marker = false
+      tooltipClose.style("opacity", 0)
+    })
+  
+  const tooltip = tooltipWrapper.append("div")
+    .attr("class", "tooltip__content")
   
   function setTooltip(selection, d) {
     selection
       .style("stroke", "black")
+      .style("stroke-width", 2)
       .raise()
+    tooltipWrapper.style("opacity", 1)
     tooltip
       .html(tooltip_template(d))
   }
@@ -82,6 +98,8 @@ export default function (el, data, group_attribute, tooltip_template) {
   function clearTooltip(selection, d) {
     selection
       .style("stroke", colorsets.unordered.light[d.group_index])
+      .style("stroke-width", 1)
+    tooltipWrapper.style("opacity", 0)
     tooltip
       .html("")
   }
@@ -90,6 +108,7 @@ export default function (el, data, group_attribute, tooltip_template) {
     selected_marker && clearTooltip(selected_marker, selected_marker.datum())
     selected_marker = d3.select(this)
     setTooltip(selected_marker, d)
+    tooltipClose.style("opacity", 1)
   }
 
   function mouseover(e, d) {

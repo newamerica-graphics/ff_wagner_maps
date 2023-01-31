@@ -12,6 +12,7 @@
 
 .pane {
   width: 250px;
+  margin-right: 20px;
 }
 
 .filters {
@@ -31,10 +32,24 @@
 }
 
 .tooltip {
-  padding-top: 1em;
-  p {
-    margin: 0 0 0.5em 0;
-    line-height: 1.25em;
+  background-color: white;
+  padding: 1em;
+  margin-top: 20px;
+  &__close {
+    float: right;
+    font-weight: bold;
+    &:hover {
+      color: #2EBCB3;
+    }
+  }
+  &__content {
+    p {
+      margin: 0 0 0.5em 0;
+      line-height: 1.25em;
+      &:last-child {
+        margin: 0
+      }
+    }
   }
 }
 
