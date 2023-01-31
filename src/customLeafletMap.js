@@ -74,7 +74,7 @@ export default function (el, data, group_attribute, tooltip_template) {
   
   function mouseleave(e, d) {
     d3.select(this)
-      .style("stroke", colorsets.unordered.light[d.group_index]) //TODO more efficient
+      .style("stroke", colorsets.unordered.light[d.group_index])
     tooltip
       .html("")
   }
