@@ -5,7 +5,7 @@ import { colorsets } from './lib/colors'
 
 var L = require('leaflet');
 
-export default function (el, data, group_attribute) {
+export default function (el, data, group_attribute, tooltip_template) {
   const pane = d3.select(el)
     .append("div")
     .attr("class", "pane")
@@ -69,9 +69,7 @@ export default function (el, data, group_attribute) {
     d3.select(this)
       .style("stroke", "black")
     tooltip
-      .html(`
-      <p>Group: ${d.vk_group}</p>
-      `)
+      .html(tooltip_template(d))
   }
   
   function mouseleave(e, d) {

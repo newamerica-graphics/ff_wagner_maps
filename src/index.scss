@@ -29,3 +29,20 @@
     display: none; //TODO check accessibility
   }
 }
+
+.tooltip {
+  p {
+    margin: 0;
+  }
+}
+
+.comma-list {
+  span:not(:last-child)::after {
+    content: ", ";
+  }
+}
+.slash-list {
+  span:not(:last-child)::after {
+    content: " / ";
+  }
+}
