@@ -82,6 +82,8 @@ export default function (el, data, group_attribute, tooltip_template) {
       tooltipClose.style("opacity", 0)
     })
   
+  const tooltipGroup = tooltipWrapper.append("div")
+    .attr("class", "tooltip__group")
   const tooltip = tooltipWrapper.append("div")
     .attr("class", "tooltip__content")
   
@@ -91,6 +93,8 @@ export default function (el, data, group_attribute, tooltip_template) {
       .style("stroke-width", 2)
       .raise()
     tooltipWrapper.style("opacity", 1)
+    tooltipGroup.html(d[group_attribute])
+      .style("background-color", colorsets.unordered.dark[d.group_index])
     tooltip
       .html(tooltip_template(d))
   }

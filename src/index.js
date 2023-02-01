@@ -11,7 +11,6 @@ const settings = {
       data.individuals,
       'vk_group',
       (d) => `
-        <p>${d.vk_group}</p>
         ${d.full_unit_affiliation_english ? `<p>Unit affiliation: ${d.full_unit_affiliation_english}</p>` : ''}
         ${(d.city_title || d.country_title) ? `<p class="comma-list"><span>${d.city_title}</span><span>${d.country_title}</span></p>` : ''}
         ${d.sex ? `<p>Sex: ${d.sex}</p>` : ''}
@@ -28,7 +27,6 @@ const settings = {
       data.units,
       'vk_group',
       (d) => `
-        <p>${d.vk_group}</p>
         ${d.existence ? `<p><em>${d.existence}</em></p>` : ''}
         ${(d.full_unit_affiliation_english || d.full_unit_affiliation_russian)
           ? `<p>Unit affiliation: <span class="slash-list"><span>${d.full_unit_affiliation_english}</span><span>${d.full_unit_affiliation_russian}</span></span></p>`

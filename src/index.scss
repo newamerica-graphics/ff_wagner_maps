@@ -13,6 +13,8 @@
 .pane {
   width: 250px;
   margin-right: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .filters {
@@ -39,16 +41,23 @@
 
 .tooltip {
   background-color: white;
-  padding: 1em;
   margin-top: 20px;
+  &__group {
+    color: white;
+    padding: 1em;
+  }
   &__close {
     float: right;
     font-weight: bold;
+    color: white;
+    padding: 5px;
     &:hover {
-      color: #2EBCB3;
+      color: #ffffffcc;
     }
   }
   &__content {
+    padding: 1em;
+    overflow-y: scroll;
     p {
       margin: 0 0 0.5em 0;
       line-height: 1.25em;
