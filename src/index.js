@@ -11,13 +11,27 @@ const settings = {
       data.individuals,
       'vk_group',
       (d) => `
-        ${d.full_unit_affiliation_english ? `<p>Unit affiliation: ${d.full_unit_affiliation_english}</p>` : ''}
-        ${(d.city_title || d.country_title) ? `<p class="comma-list"><span>${d.city_title}</span><span>${d.country_title}</span></p>` : ''}
-        ${d.sex ? `<p>Sex: ${d.sex}</p>` : ''}
-        ${d.occupation_type ? `<p>Occupation type: ${d.occupation_type}</p>` : ''}
-        ${d.personal_alcohol ? `<p>Personal alcohol: ${d.personal_alcohol}</p>` : ''}
-        ${d.personal_political ? `<p>Personal political: ${d.personal_political}</p>` : ''}
-        ${d.personal_religion ? `<p>Personal religion: ${d.personal_religion}</p>` : ''}
+        ${(d.city_title || d.country_title)
+          ? `<dt>Location</dd><dd class="comma-list"><span>${d.city_title}</span><span>${d.country_title}</span></dd>`
+          : ''}
+        ${d.full_unit_affiliation_english
+          ? `<dt>Unit affiliation</dt><dd>${d.full_unit_affiliation_english}</dd>`
+          : ''}
+        ${d.sex
+          ? `<dt>Sex</dt><dd>${d.sex}</dd>`
+          : ''}
+        ${d.occupation_type
+          ? `<dt>Occupation type</dt><dd>${d.occupation_type}</dd>`
+          : ''}
+        ${d.personal_alcohol
+          ? `<dt>Personal alcohol</dt><dd>${d.personal_alcohol}</dd>`
+          : ''}
+        ${d.personal_political
+          ? `<dt>Personal political</dt><dd>${d.personal_political}</dd>`
+          : ''}
+        ${d.personal_religion
+          ? `<dt>Personal religion</dt><dd>${d.personal_religion}</dd>`
+          : ''}
       `
     )
   },
@@ -27,12 +41,12 @@ const settings = {
       data.units,
       'vk_group',
       (d) => `
-        ${d.existence ? `<p><em>${d.existence}</em></p>` : ''}
-        ${(d.full_unit_affiliation_english || d.full_unit_affiliation_russian)
-          ? `<p>Unit affiliation: <span class="slash-list"><span>${d.full_unit_affiliation_english}</span><span>${d.full_unit_affiliation_russian}</span></span></p>`
-          : ''}
+        ${d.existence ? `<em class="tooltip__single-item">${d.existence}</em>` : ''}
         ${(d.location_english || d.location_russian)
-          ? `<p>Location: <span class="slash-list"><span>${d.location_english}</span><span>${d.location_russian}</span></span></p>`
+          ? `<dt>Location</dt><dd>${d.location_english}</dd><dd>${d.location_russian}</dd>`
+          : ''}
+        ${(d.full_unit_affiliation_english || d.full_unit_affiliation_russian)
+          ? `<dt>Unit affiliation</dt><dd>${d.full_unit_affiliation_english}</dd><dd>${d.full_unit_affiliation_russian}</dd>`
           : ''}
       `
     )

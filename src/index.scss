@@ -77,15 +77,25 @@
       }
     }
   }
+  &__single-item {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 20px;
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
 }
 
 .comma-list {
   span:not(:last-child)::after {
     content: ", ";
-  }
-}
-.slash-list {
-  span:not(:last-child)::after {
-    content: " / ";
   }
 }
