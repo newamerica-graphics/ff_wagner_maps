@@ -72,7 +72,13 @@ export default function (el, data, group_attribute, tooltip_template) {
     .classed("tooltip", true)
     .style("opacity", 0)
 
-  const tooltipClose = tooltipWrapper.append("div")
+  const tooltipHeader = tooltipWrapper.append("div")
+    .attr("class", "tooltip__header")
+  
+  const tooltipGroup = tooltipHeader.append("div")
+    .attr("class", "tooltip__group")
+
+  const tooltipClose = tooltipHeader.append("div")
     .classed("tooltip__close", true)
     .html("✕")
     .style("opacity", 0)
@@ -81,11 +87,11 @@ export default function (el, data, group_attribute, tooltip_template) {
       selected_marker = false
       tooltipClose.style("opacity", 0)
     })
-  
-  const tooltipGroup = tooltipWrapper.append("div")
-    .attr("class", "tooltip__group")
-  const tooltip = tooltipWrapper.append("div")
+
+  const tooltipContent = tooltipWrapper.append("div")
     .attr("class", "tooltip__content")
+    .append("div")
+      .attr("class", "tooltip__content-inner")
   
   function setTooltip(selection, d) {
     selection
@@ -93,10 +99,9 @@ export default function (el, data, group_attribute, tooltip_template) {
       .style("stroke-width", 2)
       .raise()
     tooltipWrapper.style("opacity", 1)
+    tooltipHeader.style("background-color", colorsets.unordered.dark[d.group_index])
     tooltipGroup.html(d[group_attribute])
-      .style("background-color", colorsets.unordered.dark[d.group_index])
-    tooltip
-      .html(tooltip_template(d))
+    tooltipContent.html(tooltip_template(d))
   }
 
   function clearTooltip(selection, d) {
@@ -104,8 +109,7 @@ export default function (el, data, group_attribute, tooltip_template) {
       .style("stroke", colorsets.unordered.light[d.group_index])
       .style("stroke-width", 1)
     tooltipWrapper.style("opacity", 0)
-    tooltip
-      .html("")
+    tooltipContent.html("")
   }
   
   function onclick(e, d) {
