@@ -15,7 +15,7 @@ export default function (el, data, group_attribute, tooltip_template) {
   var map = L.map(baseEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 10,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
   
@@ -129,7 +129,7 @@ export default function (el, data, group_attribute, tooltip_template) {
   
   // Update circle position if something changes
   function updateMarkers() {
-    d3.selectAll("circle")
+    d3.selectAll("circle") // TODO change from d3 to just the markers
       .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
       .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
   }
