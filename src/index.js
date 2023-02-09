@@ -15,22 +15,22 @@ const settings = {
           ? `<dt>Location</dd><dd class="comma-list"><span>${d.city_title}</span><span>${d.country_title}</span></dd>`
           : ''}
         ${d.full_unit_affiliation_english
-          ? `<dt>Unit affiliation</dt><dd>${d.full_unit_affiliation_english}</dd>`
+          ? `<dt>Unit Affiliation</dt><dd>${d.full_unit_affiliation_english}</dd>`
           : ''}
         ${d.sex
           ? `<dt>Sex</dt><dd>${d.sex}</dd>`
           : ''}
         ${d.occupation_type
-          ? `<dt>Occupation type</dt><dd>${d.occupation_type}</dd>`
+          ? `<dt>Occupation Type</dt><dd>${d.occupation_type}</dd>`
           : ''}
         ${d.personal_alcohol
-          ? `<dt>Personal alcohol</dt><dd>${d.personal_alcohol}</dd>`
+          ? `<dt>Personal Alcohol</dt><dd>${d.personal_alcohol}</dd>`
           : ''}
         ${d.personal_political
-          ? `<dt>Personal political</dt><dd>${d.personal_political}</dd>`
+          ? `<dt>Personal Political</dt><dd>${d.personal_political}</dd>`
           : ''}
         ${d.personal_religion
-          ? `<dt>Personal religion</dt><dd>${d.personal_religion}</dd>`
+          ? `<dt>Personal Religion</dt><dd>${d.personal_religion}</dd>`
           : ''}
       `
     )
@@ -43,10 +43,10 @@ const settings = {
       (d) => `
         ${d.existence ? `<em class="tooltip__single-item">${d.existence}</em>` : ''}
         ${(d.location_english || d.location_russian)
-          ? `<dt>Location</dt><dd>${d.location_english}</dd><dd>${d.location_russian}</dd>`
+          ? `<dt>Location</dt><dd>${d.location_english}</dd>`
           : ''}
         ${(d.full_unit_affiliation_english || d.full_unit_affiliation_russian)
-          ? `<dt>Unit affiliation</dt><dd>${d.full_unit_affiliation_english}</dd><dd>${d.full_unit_affiliation_russian}</dd>`
+          ? `<dt>Unit Affiliation</dt><dd>${d.full_unit_affiliation_english}</dd>`
           : ''}
       `
     )
