@@ -10,6 +10,8 @@ const settings = {
       el,
       data.individuals,
       'vk_group',
+      'Location of Group Members',
+      'The self-reported locations of members of the PMC Wagner-Military Review, Rusich, and Russian Imperial Movement groups on VKontakte.',
       (d) => `
         ${(d.city_title || d.country_title)
           ? `<dt>Location</dd><dd class="comma-list"><span>${d.city_title}</span><span>${d.country_title}</span></dd>`
@@ -40,6 +42,8 @@ const settings = {
       el,
       data.units,
       'vk_group',
+      'Location of Military Units ',
+      'The locations of existing and historical military units in which members of the PMC Wagner-Military Review, Rusich, and Russian Imperial Movement groups on VKontakte claim to have served. Note that unit locations are based on open source information and may contain errors. Please send comments or corrections to futurefrontlines@newamerica.org.',
       (d) => `
         ${d.existence ? `<em class="tooltip__single-item">${d.existence}</em>` : ''}
         ${(d.location_english || d.location_russian)

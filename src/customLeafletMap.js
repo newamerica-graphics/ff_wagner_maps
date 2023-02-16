@@ -5,13 +5,21 @@ import { colorsets } from './lib/colors'
 
 var L = require('leaflet');
 
-export default function (el, data, group_attribute, tooltip_template) {
-  const pane = d3.select(el)
-    .append("div")
-    .attr("class", "pane")
+export default function (el, data, group_attribute, title, description, tooltip_template) {
+  d3.select(el).html(`
+  <div class="header">
+    <h3>${title}</h3>
+    <div>${description}</div>
+  </div>
+  <div class="main">
+    <div class="pane"></div>
+    <div class="map"></div>
+  </div>
+  <div class="footer">New America</div>
+  `)
+  const pane = d3.select(el).select('.pane')
 
-  var baseEl = el.appendChild(document.createElement("div"))
-  baseEl.classList.add("map")
+  var baseEl = el.querySelector(".map")
   var map = L.map(baseEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
