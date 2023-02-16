@@ -4,13 +4,8 @@
 }
 
 .main {
-  width: 100%;
-  display: flex;
-  height: 500px;
-}
-
-.main {
   margin: 20px 0;
+  position: relative;
 }
 
 .footer {
@@ -20,17 +15,12 @@
 }
 
 .map {
-  flex-grow: 1;
-}
-
-.pane {
-  width: 250px;
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
+  max-height: calc(100vh - 40px);
+  height: 500px;
 }
 
 .filters {
+  margin-top: 20px;
   &__label {
     margin: 0 0.4em 0.4em 0;
     padding: 0.2em 0.7em;
@@ -53,11 +43,21 @@
 }
 
 .tooltip {
-  flex-grow: 1;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  max-height: calc(100% - 20px);
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
   background-color: white;
+  @media (min-width: 600px) {
+    width: 250px;
+    top: 10px;
+    bottom: auto;
+    left: auto;
+  }
   &__header {
     color: white;
     padding: 1em;
@@ -74,14 +74,9 @@
     }
   }
   &__content {
-    height: 100px;
-    flex-grow: 1;
-    padding: 1em 0;
-  }
-  &__content-inner {
-    height: 100%;
+    padding: 1em;
+    flex-shrink: 1;
     overflow-y: scroll;
-    padding: 0 1em;
     p {
       margin: 0 0 0.5em 0;
       line-height: 1.25em;

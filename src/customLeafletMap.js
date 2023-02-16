@@ -6,28 +6,27 @@ import { colorsets } from './lib/colors'
 var L = require('leaflet');
 
 export default function (el, data, group_attribute, title, description, tooltip_template) {
-  d3.select(el).html(`
+  const baseEl = d3.select(el).html(`
   <div class="header">
     <h3>${title}</h3>
     <div>${description}</div>
+    <div class="filters"></div>
   </div>
   <div class="main">
-    <div class="pane"></div>
     <div class="map"></div>
+    <div class="tooltip"></div>
   </div>
   <div class="footer">New America</div>
   `)
-  const pane = d3.select(el).select('.pane')
 
-  var baseEl = el.querySelector(".map")
-  var map = L.map(baseEl).setView([25, 0], 2)
+  var mapEl = el.querySelector(".map")
+  var map = L.map(mapEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 10,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
   
-  // Add svg layer to the map
   L.svg().addTo(map);
   
   data = data.filter(d => d.latitude && d.longitude)
@@ -35,7 +34,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
   data.forEach(d => d.group_index = `${groups.indexOf(d[group_attribute])}`)
   groups = groups.map(g => ({ group: g, active: true }))
 
-  var filters = pane.append("div")
+  baseEl.select(".filters")
     .classed("filters", true)
     .selectAll("label") 
     .data(groups)
@@ -54,8 +53,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
   
   var selected_marker
 
-  const svg = d3.select(baseEl)
-    .select("svg")
+  const svg = d3.select(mapEl).select("svg")
     .attr("pointer-events", "auto")
 
   function updateData(data) {
@@ -76,8 +74,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
   }
   updateData(data)
   
-  const tooltipWrapper = pane.append("div")
-    .classed("tooltip", true)
+  const tooltipWrapper = baseEl.select(".tooltip")
     .style("opacity", 0)
 
   const tooltipHeader = tooltipWrapper.append("div")
@@ -98,8 +95,6 @@ export default function (el, data, group_attribute, title, description, tooltip_
 
   const tooltipContent = tooltipWrapper.append("div")
     .classed("tooltip__content", true)
-    .append("div")
-      .classed("tooltip__content-inner", true)
   
   function setTooltip(selection, d) {
     selection
