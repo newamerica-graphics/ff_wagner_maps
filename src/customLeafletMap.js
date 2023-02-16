@@ -1,7 +1,7 @@
 import * as d3 from 'd3'
 import '../node_modules/leaflet/dist/leaflet.css'
 import './index.scss'
-import { colorsets } from './lib/colors'
+import { getColorset } from './lib/colors'
 
 var L = require('leaflet');
 
@@ -41,9 +41,8 @@ export default function (el, data, group_attribute, title, description, tooltip_
     .join("label")
       .text(d => d.group)
       .classed("filters__label filters__label--active", true)
-      .style("color", (d, i) => colorsets.unordered.dark[i])
-      .style("border-color", (d, i) => colorsets.unordered.light[i])
-      .style("background-color", (d, i) => `${colorsets.unordered.light[i]}40`)
+      .style("color", (d, i) => getColorset('lightest')[i])
+      .style("background-color", (d, i) => getColorset('darkest')[i])
       .on("change", updateFilters) 
     .append("input")
       .attr("type", "checkbox")
@@ -64,9 +63,9 @@ export default function (el, data, group_attribute, title, description, tooltip_
         .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
         .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
         .attr("r", 3)
-        .style("fill", d => colorsets.unordered.light[d.group_index])
+        .style("fill", d => getColorset('medium')[d.group_index])
         .style("fill-opacity", .8)
-        .style("stroke", d => colorsets.unordered.light[d.group_index])
+        .style("stroke", d => getColorset('dark')[d.group_index])
         .style("stroke-width", 1)
         .on("mouseover", mouseover)
         .on("mouseleave", mouseleave)
@@ -102,14 +101,14 @@ export default function (el, data, group_attribute, title, description, tooltip_
       .style("stroke-width", 2)
       .raise()
     tooltipWrapper.style("opacity", 1)
-    tooltipHeader.style("background-color", colorsets.unordered.dark[d.group_index])
+    tooltipHeader.style("background-color", getColorset('darker')[d.group_index])
     tooltipGroup.html(d[group_attribute])
     tooltipContent.html(tooltip_template(d))
   }
 
   function clearTooltip(selection, d) {
     selection
-      .style("stroke", colorsets.unordered.light[d.group_index])
+      .style("stroke", getColorset('dark')[d.group_index])
       .style("stroke-width", 1)
     tooltipWrapper.style("opacity", 0)
     tooltipContent.html("")
@@ -140,8 +139,11 @@ export default function (el, data, group_attribute, title, description, tooltip_
 
   function updateFilters(e, d) {
     let filter = d3.select(this)
+    let i = groups.indexOf(d)
     d.active = filter.select("input").property("checked")
     filter.classed("filters__label--active", d.active)
+      .style("color",  d.active ? getColorset('lightest')[i] : getColorset('darkest')[i])
+      .style("background-color", d.active ? getColorset('darkest')[i] : "transparent")
     updateData(data.filter(m => groups[m.group_index].active))
   }
   

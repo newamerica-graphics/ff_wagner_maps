@@ -26,15 +26,8 @@
     padding: 0.2em 0.7em;
     line-height: 1em;
     border-radius: 0.7em;
-    opacity: 0.7;
     &:hover {
       opacity: 0.6;
-    }
-    &--active {
-      opacity: 1;
-      &:hover {
-        opacity: 0.9;
-      }
     }
   }
   &__input {
@@ -60,17 +53,20 @@
   }
   &__header {
     color: white;
-    padding: 1em;
+    padding: 0.5em;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
+  &__group {
+    padding: 0.5em;
+  }
   &__close {
     font-weight: bold;
     color: white;
-    margin-left: 0.5em;
+    padding: 0.5em;
     &:hover {
-      color: #ffffffcc;
+      color: #ffffffbb;
     }
   }
   &__content {
