@@ -23,7 +23,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
   var map = L.map(mapEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 10,
+    maxZoom: 6,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
   
