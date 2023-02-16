@@ -28,7 +28,7 @@ export default function (el, data, group_attribute, tooltip_template) {
   groups = groups.map(g => ({ group: g, active: true }))
 
   var filters = pane.append("div")
-    .attr("class", "filters")
+    .classed("filters", true)
     .selectAll("label") 
     .data(groups)
     .join("label")
@@ -73,10 +73,10 @@ export default function (el, data, group_attribute, tooltip_template) {
     .style("opacity", 0)
 
   const tooltipHeader = tooltipWrapper.append("div")
-    .attr("class", "tooltip__header")
+    .classed("tooltip__header", true)
   
   const tooltipGroup = tooltipHeader.append("div")
-    .attr("class", "tooltip__group")
+    .classed("tooltip__group", true)
 
   const tooltipClose = tooltipHeader.append("div")
     .classed("tooltip__close", true)
@@ -89,9 +89,9 @@ export default function (el, data, group_attribute, tooltip_template) {
     })
 
   const tooltipContent = tooltipWrapper.append("div")
-    .attr("class", "tooltip__content")
+    .classed("tooltip__content", true)
     .append("div")
-      .attr("class", "tooltip__content-inner")
+      .classed("tooltip__content-inner", true)
   
   function setTooltip(selection, d) {
     selection
