@@ -135,6 +135,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
     svg.selectAll("circle")
       .attr("cx", d => map.latLngToLayerPoint([d.latitude, d.longitude]).x)
       .attr("cy", d => map.latLngToLayerPoint([d.latitude, d.longitude]).y)
+      .attr("r", 2 + map.getZoom()/2)
   }
 
   function updateFilters(e, d) {
