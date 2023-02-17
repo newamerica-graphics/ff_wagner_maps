@@ -27,9 +27,7 @@ module.exports = env => {
       env.deploy &&
         new CompressionPlugin({
           test: /\.(js|css)$/,
-          filename: "[path].gz[query]",
-          algorithm: "gzip",
-          deleteOriginalAssets: false
+          filename: "[file].gz[query]"
         })
     ].filter(plugin => plugin),
     module: {
@@ -58,12 +56,10 @@ module.exports = env => {
               options: {
                 postcssOptions: {
                   plugins: [
-                    [
-                      "autoprefixer",
-                      require('cssnano')({
-                        preset: 'default'
-                      })
-                    ]
+                    "autoprefixer",
+                    require('cssnano')({
+                      preset: 'default'
+                    })
                   ]
                 }
               }
