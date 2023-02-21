@@ -7,19 +7,19 @@ var L = require('leaflet');
 
 export default function (el, data, group_attribute, title, description, tooltip_template) {
   const baseEl = d3.select(el).html(`
-  <div class="header">
+  <div class="dv-header">
     <h3>${title}</h3>
     <div>${description}</div>
-    <div class="filters"></div>
+    <div class="dv-filters"></div>
   </div>
-  <div class="main">
-    <div class="map"></div>
-    <div class="tooltip"></div>
+  <div class="dv-main">
+    <div class="dv-map"></div>
+    <div class="dv-tooltip"></div>
   </div>
-  <div class="footer">New America</div>
+  <div class="dv-footer">New America</div>
   `)
 
-  var mapEl = el.querySelector(".map")
+  var mapEl = el.querySelector(".dv-map")
   var map = L.map(mapEl).setView([25, 0], 2)
   
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -34,13 +34,13 @@ export default function (el, data, group_attribute, title, description, tooltip_
   data.forEach(d => d.group_index = `${groups.indexOf(d[group_attribute])}`)
   groups = groups.map(g => ({ group: g, active: true }))
 
-  baseEl.select(".filters")
-    .classed("filters", true)
+  baseEl.select(".dv-filters")
+    .classed("dv-filters", true)
     .selectAll("label") 
     .data(groups)
     .join("label")
       .text(d => d.group)
-      .classed("filters__label filters__label--active", true)
+      .classed("dv-filters__label dv-filters__label--active", true)
       .style("color", (d, i) => getColorset('lightest')[i])
       .style("background-color", (d, i) => getColorset('darkest')[i])
       .on("change", updateFilters) 
@@ -48,7 +48,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
       .attr("type", "checkbox")
       .attr("value", (d, i) => `group${i}`)
       .property("checked", d => d.active)
-      .classed("filters__input", true)
+      .classed("dv-filters__input", true)
   
   var selected_marker
 
@@ -73,17 +73,17 @@ export default function (el, data, group_attribute, title, description, tooltip_
   }
   updateData(data)
   
-  const tooltipWrapper = baseEl.select(".tooltip")
+  const tooltipWrapper = baseEl.select(".dv-tooltip")
     .style("opacity", 0)
 
   const tooltipHeader = tooltipWrapper.append("div")
-    .classed("tooltip__header", true)
+    .classed("dv-tooltip__header", true)
   
   const tooltipGroup = tooltipHeader.append("div")
-    .classed("tooltip__group", true)
+    .classed("dv-tooltip__group", true)
 
   const tooltipClose = tooltipHeader.append("div")
-    .classed("tooltip__close", true)
+    .classed("dv-tooltip__close", true)
     .html("✕")
     .style("opacity", 0)
     .on("click", (d, e) => {
@@ -93,7 +93,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
     })
 
   const tooltipContent = tooltipWrapper.append("div")
-    .classed("tooltip__content", true)
+    .classed("dv-tooltip__content", true)
   
   function setTooltip(selection, d) {
     selection
@@ -141,7 +141,7 @@ export default function (el, data, group_attribute, title, description, tooltip_
     let filter = d3.select(this)
     let i = groups.indexOf(d)
     d.active = filter.select("input").property("checked")
-    filter.classed("filters__label--active", d.active)
+    filter.classed("dv-filters__label--active", d.active)
       .style("color",  d.active ? getColorset('lightest')[i] : getColorset('darkest')[i])
       .style("background-color", d.active ? getColorset('darkest')[i] : "transparent")
     updateData(data.filter(m => groups[m.group_index].active))

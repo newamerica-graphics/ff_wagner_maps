@@ -5,25 +5,36 @@
     font-weight: normal;
     color: #209B93;
   }
+  
+  dt {
+    font-weight: bold;
+  }
+  
+  dd {
+    margin-left: 20px;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
 }
 
-.main {
+.dv-main {
   margin: 20px 0;
   position: relative;
 }
 
-.footer {
+.dv-footer {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
 }
 
-.map {
+.dv-map {
   max-height: calc(100vh - 40px);
   height: 500px;
 }
 
-.filters {
+.dv-filters {
   margin-top: 20px;
   &__label {
     margin: 0 0.4em 0.4em 0;
@@ -39,7 +50,7 @@
   }
 }
 
-.tooltip {
+.dv-tooltip {
   position: absolute;
   bottom: 10px;
   left: 10px;
@@ -91,18 +102,7 @@
   }
 }
 
-dt {
-  font-weight: bold;
-}
-
-dd {
-  margin-left: 20px;
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-}
-
-.comma-list {
+.dv-comma-list {
   span:not(:last-child)::after {
     content: ", ";
   }
